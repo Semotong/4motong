@@ -20,7 +20,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
       <div className="max-w-screen-lg mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold tracking-tight">
-          <span style={{ color: '#4A90D9' }}>세이브</span>
+          <span style={{ color: '#17B4E8' }}>세이브</span>
           <span className="text-gray-900">모바일</span>
         </Link>
 
@@ -35,7 +35,7 @@ export default function Header() {
             user ? (
               <>
                 <span className="hidden md:block text-sm text-gray-600">
-                  <span style={{ color: '#4A90D9' }} className="font-bold">{user.name}</span>님
+                  <span style={{ color: '#17B4E8' }} className="font-bold">{user.name}</span>님
                 </span>
                 <button
                   onClick={handleLogout}
@@ -46,7 +46,7 @@ export default function Header() {
                 <Link
                   href="/mypage"
                   className="text-sm font-semibold text-white px-3 py-1.5 rounded-lg"
-                  style={{ backgroundColor: '#4A90D9' }}
+                  style={{ backgroundColor: '#17B4E8' }}
                 >
                   마이페이지
                 </Link>
@@ -62,7 +62,7 @@ export default function Header() {
                 <Link
                   href="/auth/signup"
                   className="text-sm font-semibold text-white px-3 py-1.5 rounded-lg"
-                  style={{ backgroundColor: '#4A90D9' }}
+                  style={{ backgroundColor: '#17B4E8' }}
                 >
                   회원가입
                 </Link>
