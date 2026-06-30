@@ -20,8 +20,8 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
       <div className="max-w-screen-lg mx-auto px-4 h-14 flex items-center justify-between">
         <Link href="/" className="text-xl font-bold tracking-tight">
-          <span style={{ color: '#4A90D9' }}>네</span>
-          <span className="text-gray-900">모통</span>
+          <span style={{ color: '#4A90D9' }}>세이브</span>
+          <span className="text-gray-900">모바일</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm text-gray-600">
