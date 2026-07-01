@@ -26,7 +26,7 @@ export async function fetchPlansFromSmt(params: {
   const encUrl = getPartnerEncUrl();
 
   try {
-    const res = await fetch(`${SMT_BASE_URL}/b2b/getPlanlist`, {
+    const res = await fetch(`${SMT_BASE_URL}/b2b/${encUrl}/getPlanlist`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
