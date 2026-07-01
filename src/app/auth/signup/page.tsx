@@ -34,13 +34,35 @@ export default function SignupPage() {
     else setError(result.message || '회원가입에 실패했어요');
   };
 
+  const handleKakaoSignup = () => {
+    window.location.href = '/api/auth/kakao';
+  };
+
   return (
     <div className="max-w-sm mx-auto pt-8">
       <div className="text-center mb-8">
         <Link href="/" className="text-2xl font-extrabold tracking-tight">
-          <span style={{ color: '#4A90D9' }}>네</span>모통 회원가입
+          <span style={{ color: '#17B4E8' }}>세이브</span>모바일 회원가입
         </Link>
         <p className="text-sm text-gray-500 mt-1">가입하고 요금제를 찜해보세요</p>
+      </div>
+
+      <button
+        type="button"
+        onClick={handleKakaoSignup}
+        className="w-full flex items-center justify-center gap-2 text-sm font-bold py-3.5 rounded-xl mb-4"
+        style={{ backgroundColor: '#FEE500', color: '#191600' }}
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 3C6.5 3 2 6.6 2 11c0 2.8 1.9 5.3 4.7 6.7-.2.7-.8 2.9-.9 3.4-.1.5.2.5.4.4.2-.1 2.8-1.9 3.9-2.7.6.1 1.2.1 1.9.1 5.5 0 10-3.6 10-8 0-4.4-4.5-8-10-8z" />
+        </svg>
+        카카오로 시작하기
+      </button>
+
+      <div className="flex items-center gap-3 mb-4">
+        <hr className="flex-1 border-gray-200" />
+        <span className="text-xs text-gray-400">또는 이메일로 가입</span>
+        <hr className="flex-1 border-gray-200" />
       </div>
 
       <div className="bg-white rounded-2xl p-6 mb-4">
@@ -89,7 +111,7 @@ export default function SignupPage() {
 
           <button type="submit" disabled={loading}
             className="w-full text-sm font-bold text-white py-3.5 rounded-xl mt-1 disabled:opacity-60"
-            style={{ backgroundColor: '#4A90D9' }}>
+            style={{ backgroundColor: '#17B4E8' }}>
             {loading ? '가입 중...' : '회원가입'}
           </button>
         </form>
@@ -97,7 +119,7 @@ export default function SignupPage() {
 
       <p className="text-center text-sm text-gray-500">
         이미 계정이 있으신가요?{' '}
-        <Link href="/auth/login" style={{ color: '#4A90D9' }} className="font-bold">로그인</Link>
+        <Link href="/auth/login" style={{ color: '#17B4E8' }} className="font-bold">로그인</Link>
       </p>
     </div>
   );
