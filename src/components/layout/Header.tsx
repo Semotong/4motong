@@ -28,15 +28,6 @@ export default function Header() {
           <Link href="/plans" className="hover:text-blue-500 transition-colors">요금제 전체</Link>
           <Link href="/plans?type=5g" className="hover:text-blue-500 transition-colors">5G</Link>
           <Link href="/plans?type=lte" className="hover:text-blue-500 transition-colors">LTE</Link>
-          <a
-            href="http://b2b.alancorp.net/b2b/NG1vdG9uZy8x"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold transition-colors"
-            style={{ color: '#E8703A' }}
-          >
-            B2B 영업
-          </a>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -95,16 +86,6 @@ export default function Header() {
           <Link href="/plans" onClick={() => setMenuOpen(false)}>요금제 전체</Link>
           <Link href="/plans?type=5g" onClick={() => setMenuOpen(false)}>5G 요금제</Link>
           <Link href="/mypage/zzim" onClick={() => setMenuOpen(false)}>찜 목록</Link>
-          <a
-            href="http://b2b.alancorp.net/b2b/NG1vdG9uZy8x"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-semibold"
-            style={{ color: '#E8703A' }}
-            onClick={() => setMenuOpen(false)}
-          >
-            B2B 영업
-          </a>
           {user ? (
             <>
               <Link href="/mypage" onClick={() => setMenuOpen(false)}>마이페이지</Link>
