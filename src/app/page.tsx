@@ -37,6 +37,7 @@ export default function HomePage() {
 
   return (
     <>
+      {/* 히어로 */}
       <div className="rounded-2xl p-5 mb-4" style={{ background: 'linear-gradient(135deg, #EBF3FB 0%, #F0F6FD 100%)' }}>
         <p className="text-xs font-bold mb-1" style={{ color: '#17B4E8' }}>알뜰폰 요금제 비교</p>
         <h1 className="text-xl font-extrabold text-gray-900 mb-1 tracking-tight">통신비, 이제 제대로 줄여요</h1>
@@ -52,7 +53,7 @@ export default function HomePage() {
             style={{ color: '#17B4E8', borderColor: '#17B4E8' }}>
             최저가 찾기
           </Link>
-          
+          <a
             href="http://b2b.alancorp.net/b2b/NG1vdG9uZy8x"
             target="_blank"
             rel="noopener noreferrer"
