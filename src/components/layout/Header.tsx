@@ -28,7 +28,7 @@ export default function Header() {
           <Link href="/plans" className="hover:text-blue-500 transition-colors">요금제 전체</Link>
           <Link href="/plans?type=5g" className="hover:text-blue-500 transition-colors">5G</Link>
           <Link href="/plans?type=lte" className="hover:text-blue-500 transition-colors">LTE</Link>
-          
+          <a
             href="http://b2b.alancorp.net/b2b/NG1vdG9uZy8x"
             target="_blank"
             rel="noopener noreferrer"
@@ -95,7 +95,7 @@ export default function Header() {
           <Link href="/plans" onClick={() => setMenuOpen(false)}>요금제 전체</Link>
           <Link href="/plans?type=5g" onClick={() => setMenuOpen(false)}>5G 요금제</Link>
           <Link href="/mypage/zzim" onClick={() => setMenuOpen(false)}>찜 목록</Link>
-          
+          <a
             href="http://b2b.alancorp.net/b2b/NG1vdG9uZy8x"
             target="_blank"
             rel="noopener noreferrer"
