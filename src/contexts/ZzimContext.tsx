@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState, useEffect, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode } from 'react';
 import { useAuth } from './AuthContext';
 
 interface ZzimContextType {
@@ -16,17 +16,26 @@ export function ZzimProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const [zzimIds, setZzimIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(false);
+  // 동일 요금제에 대한 중복 요청(더블클릭) 방지용
+  const pendingRef = useRef<Set<number>>(new Set());
 
   const fetchZzims = useCallback(async () => {
-    if (!user) { setZzimIds([]); return; }
+    if (!user) {
+      // 비로그인 상태면 localStorage 사용
+      try {
+        const stored = localStorage.getItem('zzim_ids');
+        setZzimIds(stored ? Array.from(new Set<number>(JSON.parse(stored))) : []);
+      } catch {
+        setZzimIds([]);
+      }
+      return;
+    }
     try {
       const res = await fetch('/api/zzim');
       const data = await res.json();
-      if (data.success) setZzimIds(data.ids || []);
+      if (data.success) setZzimIds(Array.from(new Set<number>(data.ids || [])));
     } catch {
-      // 비로그인 상태면 localStorage 사용
-      const stored = localStorage.getItem('zzim_ids');
-      if (stored) setZzimIds(JSON.parse(stored));
+      setZzimIds([]);
     }
   }, [user]);
 
@@ -35,13 +44,27 @@ export function ZzimProvider({ children }: { children: ReactNode }) {
   const toggle = async (planId: number) => {
     if (!user) {
       // 비로그인: localStorage에 저장
-      const newIds = zzimIds.includes(planId)
-        ? zzimIds.filter(id => id !== planId)
-        : [...zzimIds, planId];
-      setZzimIds(newIds);
-      localStorage.setItem('zzim_ids', JSON.stringify(newIds));
+      setZzimIds(prev => {
+        const next = prev.includes(planId)
+          ? prev.filter(id => id !== planId)
+          : [...prev, planId];
+        localStorage.setItem('zzim_ids', JSON.stringify(next));
+        return next;
+      });
       return;
     }
+
+    // 이미 처리 중인 요청이면 무시 (더블클릭 시 중복 저장 방지)
+    if (pendingRef.current.has(planId)) return;
+    pendingRef.current.add(planId);
+
+    const wasZzimed = zzimIds.includes(planId);
+    // 낙관적 업데이트: 클릭 즉시 하트 반영
+    setZzimIds(prev => {
+      const set = new Set(prev);
+      if (wasZzimed) set.delete(planId); else set.add(planId);
+      return Array.from(set);
+    });
 
     setLoading(true);
     try {
@@ -52,13 +75,29 @@ export function ZzimProvider({ children }: { children: ReactNode }) {
       });
       const data = await res.json();
       if (data.success) {
-        setZzimIds(prev =>
-          data.action === 'added'
-            ? [...prev, planId]
-            : prev.filter(id => id !== planId)
-        );
+        // 서버 실제 상태에 맞춰 동기화
+        setZzimIds(prev => {
+          const set = new Set(prev);
+          if (data.action === 'added') set.add(planId); else set.delete(planId);
+          return Array.from(set);
+        });
+      } else {
+        // 실패 시 롤백
+        setZzimIds(prev => {
+          const set = new Set(prev);
+          if (wasZzimed) set.add(planId); else set.delete(planId);
+          return Array.from(set);
+        });
       }
+    } catch {
+      // 네트워크 오류 시 롤백
+      setZzimIds(prev => {
+        const set = new Set(prev);
+        if (wasZzimed) set.add(planId); else set.delete(planId);
+        return Array.from(set);
+      });
     } finally {
+      pendingRef.current.delete(planId);
       setLoading(false);
     }
   };
