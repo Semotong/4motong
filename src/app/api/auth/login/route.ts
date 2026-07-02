@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: '이메일 또는 비밀번호가 맞지 않아요' }, { status: 401 });
     }
 
-    const token = signToken({ id: user.id, email: user.email, name: user.name });
+    const token = signToken({ id: user.id, email: user.email, name: user.name, role: user.role });
 
     const res = NextResponse.json({
       success: true,
