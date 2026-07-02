@@ -24,6 +24,7 @@ export async function GET(req: NextRequest) {
       authorizeUrl.searchParams.set('client_id', restApiKey);
       authorizeUrl.searchParams.set('redirect_uri', redirectUri);
       authorizeUrl.searchParams.set('response_type', 'code');
+      authorizeUrl.searchParams.set('prompt', 'login');
 
   return NextResponse.redirect(authorizeUrl.toString());
 }
