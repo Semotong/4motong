@@ -22,7 +22,7 @@ export default function PlanCard({ plan }: PlanCardProps) {
   return (
     <div
       className="bg-white rounded-2xl p-4 transition-all duration-150"
-      style={{ border: isHot ? '1.5px solid #4A90D9' : '1px solid #E5E7EB' }}
+      style={{ border: isHot ? '1.5px solid #17B4E8' : '1px solid #E5E7EB' }}
     >
       <div className="flex items-start justify-between mb-2.5">
         <div className="flex flex-wrap gap-1.5">
@@ -45,8 +45,8 @@ export default function PlanCard({ plan }: PlanCardProps) {
           aria-label={zzimed ? '찜 취소' : '찜하기'}
         >
           <svg width="20" height="20" viewBox="0 0 24 24"
-            fill={zzimed ? '#4A90D9' : 'none'}
-            stroke={zzimed ? '#4A90D9' : '#D1D5DB'}
+            fill={zzimed ? '#17B4E8' : 'none'}
+            stroke={zzimed ? '#17B4E8' : '#D1D5DB'}
             strokeWidth="2"
           >
             <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
@@ -98,7 +98,7 @@ export default function PlanCard({ plan }: PlanCardProps) {
           {joinUrl && (
             <a href={joinUrl} target="_blank" rel="noopener noreferrer"
               className="text-xs font-bold text-white px-4 py-2 rounded-xl text-center"
-              style={{ backgroundColor: '#4A90D9' }}
+              style={{ backgroundColor: '#17B4E8' }}
             >
               신규가입
             </a>
@@ -106,7 +106,7 @@ export default function PlanCard({ plan }: PlanCardProps) {
           {moveUrl && moveUrl !== joinUrl && (
             <a href={moveUrl} target="_blank" rel="noopener noreferrer"
               className="text-xs font-bold px-4 py-2 rounded-xl text-center border"
-              style={{ color: '#4A90D9', borderColor: '#4A90D9' }}
+              style={{ color: '#17B4E8', borderColor: '#17B4E8' }}
             >
               번호이동
             </a>
@@ -118,7 +118,7 @@ export default function PlanCard({ plan }: PlanCardProps) {
         <div className="flex flex-wrap gap-1.5 mt-3 pt-3 border-t border-gray-100">
           {tags.map((tag, i) => (
             <span key={i} className="text-xs text-gray-500 flex items-center gap-1">
-              <span style={{ color: '#4A90D9' }}>🎁</span> {tag}
+              <span style={{ color: '#17B4E8' }}>🎁</span> {tag}
             </span>
           ))}
         </div>
