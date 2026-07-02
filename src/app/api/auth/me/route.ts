@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json({
     success: true,
-    user: { id: user.id, email: user.email, name: user.name, phone: user.phone },
+    user: { id: user.id, email: user.email, name: user.name, phone: user.phone, role: user.role },
   });
 }
 
@@ -35,7 +35,7 @@ export async function PATCH(req: NextRequest) {
   if (!updated) return NextResponse.json({ success: false, message: '수정에 실패했어요' }, { status: 500 });
 
   // 이름이 바뀌었으니 세션 토큰도 새 이름으로 갱신
-  const newToken = signToken({ id: updated.id, email: updated.email, name: updated.name });
+  const newToken = signToken({ id: updated.id, email: updated.email, name: updated.name, role: updated.role });
   const res = NextResponse.json({
     success: true,
     user: { id: updated.id, email: updated.email, name: updated.name, phone: updated.phone },
