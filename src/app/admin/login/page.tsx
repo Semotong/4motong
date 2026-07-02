@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { isAdminRole } from '@/lib/roles';
 
 interface AccountInfo {
   name: string;
+  role: string;
 }
 
 export default function AdminLoginPage() {
@@ -27,7 +29,7 @@ export default function AdminLoginPage() {
         const me = await fetch('/api/auth/me', { cache: 'no-store' });
         const meData = await me.json();
         if (meData.success && meData.user) {
-          setAccount({ name: meData.user.name });
+          setAccount({ name: meData.user.name, role: meData.user.role || 'user' });
         }
       } catch {
         // ignore
@@ -59,6 +61,8 @@ export default function AdminLoginPage() {
     }
   }
 
+  const accountIsAdmin = account ? isAdminRole(account.role) : false;
+
   if (checking) {
     return (
       <div className="min-h-screen flex items-center justify-center text-gray-500">확인 중...</div>
@@ -71,7 +75,20 @@ export default function AdminLoginPage() {
         <h1 className="text-lg font-bold mb-1">세이브모바일 관리자</h1>
         <p className="text-sm text-gray-500 mb-6">요금제 · 콘텐츠 관리 페이지</p>
 
-        {account ? (
+        {accountIsAdmin ? (
+          <>
+            <div className="mb-3 rounded-lg p-3 text-sm" style={{ background: '#E7F7EF', color: '#159A67' }}>
+              <b>{account?.name}</b>님은 관리자 계정입니다. 보안을 위해 다시 로그인하면 관리자 페이지로 들어갈 수 있어요.
+            </div>
+            <a
+              href="/auth/login?redirect=/admin/plans"
+              className="block w-full text-center text-white rounded-lg py-2.5 font-medium mb-5"
+              style={{ backgroundColor: '#17B4E8' }}
+            >
+              관리자로 다시 로그인
+            </a>
+          </>
+        ) : account ? (
           <div className="mb-5 rounded-lg p-3 text-sm" style={{ background: '#FEF3F2', color: '#B42318' }}>
             현재 <b>{account.name}</b>님으로 로그인되어 있지만 관리자 권한이 없습니다. 관리자 계정으로 다시 로그인해주세요.
           </div>
