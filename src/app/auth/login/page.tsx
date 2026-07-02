@@ -19,7 +19,8 @@ export default function LoginPage() {
     const result = await login(form.email, form.password);
     setLoading(false);
     if (result.success) {
-      router.push('/');
+      const redirect = new URLSearchParams(window.location.search).get('redirect');
+      router.push(redirect || '/');
     } else {
       setError(result.message || '로그인에 실패했어요');
     }
@@ -29,7 +30,7 @@ export default function LoginPage() {
     <div className="max-w-sm mx-auto pt-8">
       <div className="text-center mb-8">
         <Link href="/" className="text-2xl font-extrabold tracking-tight">
-          <span style={{ color: '#4A90D9' }}>네</span>모통
+          <span style={{ color: '#17B4E8' }}>네</span>모통
         </Link>
         <p className="text-sm text-gray-500 mt-1">로그인하고 요금제를 관리하세요</p>
       </div>
@@ -51,7 +52,7 @@ export default function LoginPage() {
           </div>
           <button type="submit" disabled={loading}
             className="w-full text-sm font-bold text-white py-3.5 rounded-xl mt-1 disabled:opacity-60"
-            style={{ backgroundColor: '#4A90D9' }}>
+            style={{ backgroundColor: '#17B4E8' }}>
             {loading ? '로그인 중...' : '로그인'}
           </button>
         </form>
@@ -75,7 +76,7 @@ export default function LoginPage() {
         
       <p className="text-center text-sm text-gray-500">
         아직 계정이 없으신가요?{' '}
-        <Link href="/auth/signup" style={{ color: '#4A90D9' }} className="font-bold">회원가입</Link>
+        <Link href="/auth/signup" style={{ color: '#17B4E8' }} className="font-bold">회원가입</Link>
       </p>
     </div>
   );
