@@ -1,8 +1,11 @@
 import { NextRequest } from 'next/server';
 import { createHmac, timingSafeEqual } from 'crypto';
+import { verifyToken } from '@/lib/auth';
+import { isAdminRole } from '@/lib/roles';
 
-// 관리자 페이지 보호용 심플 비밀번호 게이트
-// Vercel 환경변수 ADMIN_PASSWORD 하나만 설정하면 됨 (DB/Supabase 불필요)
+// 관리자 인증
+// 1) 로그인 계정의 롤(super_admin/admin/operator) 기반 접근 — 기본 방식
+// 2) 마스터 비밀번호(ADMIN_PASSWORD) 세션 — 부트스트랩/비상용 fallback (최고관리자로 취급)
 
 export const ADMIN_COOKIE_NAME = 'sm_admin_session';
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 7; // 7일
@@ -35,7 +38,7 @@ export function verifyPassword(input: string): boolean {
 export function createSessionToken(): { token: string; maxAge: number } {
   const issuedAt = Date.now().toString();
   const sig = sign(issuedAt);
-  return { token: `${issuedAt}.${sig}`, maxAge: MAX_AGE_SECONDS };
+  return { token: issuedAt + '.' + sig, maxAge: MAX_AGE_SECONDS };
 }
 
 export function verifySessionToken(token: string | undefined | null): boolean {
@@ -45,7 +48,7 @@ export function verifySessionToken(token: string | undefined | null): boolean {
   const [issuedAt, sig] = parts;
   if (!issuedAt || !sig) return false;
 
-let expected: string;
+  let expected: string;
   try {
     expected = sign(issuedAt);
   } catch {
@@ -53,13 +56,35 @@ let expected: string;
   }
   if (!safeEqual(expected, sig)) return false;
 
-const age = Date.now() - Number(issuedAt);
+  const age = Date.now() - Number(issuedAt);
   return age >= 0 && age <= MAX_AGE_SECONDS * 1000;
 }
 
+export interface AdminContext {
+  ok: boolean;
+  role: string | null;
+  name: string | null;
+  via: 'password' | 'account' | null;
+}
+
+// 요청의 관리자 컨텍스트를 해석한다.
+export function resolveAdmin(req: NextRequest): AdminContext {
+  // 1) 마스터 비밀번호 세션 (부트스트랩/비상용) → 최고관리자로 취급
+  const pwToken = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
+  if (verifySessionToken(pwToken)) {
+    return { ok: true, role: 'super_admin', name: '마스터', via: 'password' };
+  }
+  // 2) 로그인 계정의 롤 기반 (nemotong_token)
+  const userToken = req.cookies.get('nemotong_token')?.value;
+  const payload = userToken ? verifyToken(userToken) : null;
+  if (payload && isAdminRole(payload.role)) {
+    return { ok: true, role: payload.role ?? null, name: payload.name ?? null, via: 'account' };
+  }
+  return { ok: false, role: null, name: null, via: null };
+}
+
 export function isAdminRequest(req: NextRequest): boolean {
-  const token = req.cookies.get(ADMIN_COOKIE_NAME)?.value;
-  return verifySessionToken(token);
+  return resolveAdmin(req).ok;
 }
 
 export const ADMIN_COOKIE_MAX_AGE = MAX_AGE_SECONDS;
