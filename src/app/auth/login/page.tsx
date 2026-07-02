@@ -63,6 +63,8 @@ export default function LoginPage() {
         </div>
 
         <button className="w-full text-sm font-bold py-3.5 rounded-xl flex items-center justify-center gap-2"
+            type="button"
+            onClick={() => { window.location.href = '/api/auth/kakao'; }}
           style={{ backgroundColor: '#FEE500', color: '#3C1E1E' }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#3C1E1E">
             <path d="M12 3C6.477 3 2 6.477 2 10.889c0 2.833 1.715 5.32 4.33 6.806l-.992 3.705a.25.25 0 00.376.274l4.367-2.914C10.35 18.92 11.165 19 12 19c5.523 0 10-3.477 10-7.778C22 6.477 17.523 3 12 3z" />
@@ -70,7 +72,7 @@ export default function LoginPage() {
           카카오로 시작하기
         </button>
       </div>
-
+        
       <p className="text-center text-sm text-gray-500">
         아직 계정이 없으신가요?{' '}
         <Link href="/auth/signup" style={{ color: '#4A90D9' }} className="font-bold">회원가입</Link>
