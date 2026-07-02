@@ -41,6 +41,10 @@ const SORT_OPTIONS = [
   { label: '12개월합산', value: 'price12' },
 ];
 
+const UNSELECTED = { background: '#F9FAFB', color: '#9CA3AF', border: '1px solid #E5E7EB' };
+const PRICE_SELECTED = { background: '#EBF3FB', color: '#2378C3', border: '1px solid #17B4E8' };
+const DATA_SELECTED = { background: '#E7F7EF', color: '#159A67', border: '1px solid #22B573' };
+
 export default function FilterBar({ onFilterChange }: FilterBarProps) {
   const [filters, setFilters] = useState<FilterState>({
     mno: '',
@@ -67,7 +71,7 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
             className="px-3 py-1.5 rounded-full text-sm font-medium transition-colors"
             style={
               filters.mno === f.value
-                ? { background: '#4A90D9', color: '#fff', border: '1px solid #4A90D9' }
+                ? { background: '#17B4E8', color: '#fff', border: '1px solid #17B4E8' }
                 : { background: '#F3F4F6', color: '#6B7280', border: '1px solid transparent' }
             }
           >
@@ -76,37 +80,43 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
         ))}
       </div>
 
-      {/* 가격 + 데이터 필터 */}
-      <div className="flex flex-wrap gap-2 mb-3">
-        {PRICE_FILTERS.map((f) => (
-          <button
-            key={f.value}
-            onClick={() => update('priceMax', f.value)}
-            className="px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
-            style={
-              filters.priceMax === f.value
-                ? { background: '#EBF3FB', color: '#2378C3', border: '1px solid #4A90D9' }
-                : { background: '#F9FAFB', color: '#9CA3AF', border: '1px solid #E5E7EB' }
-            }
-          >
-            {f.label}
-          </button>
-        ))}
-        {DATA_FILTERS.filter(f => f.value > 0).map((f) => (
-          <button
-            key={f.value}
-            onClick={() => update('dataMin', filters.dataMin === f.value ? 0 : f.value)}
-            className="px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
-            style={
-              filters.dataMin === f.value
-                ? { background: '#EBF3FB', color: '#2378C3', border: '1px solid #4A90D9' }
-                : { background: '#F9FAFB', color: '#9CA3AF', border: '1px solid #E5E7EB' }
-            }
-          >
-            {f.label}
-          </button>
-        ))}
+      <div className="border-t border-gray-100 my-3" />
+
+      {/* 가격 필터 */}
+      <div className="flex gap-2 mb-2.5">
+        <span className="text-xs font-bold text-gray-400 pt-1.5 w-9 shrink-0">가격</span>
+        <div className="flex flex-wrap gap-2">
+          {PRICE_FILTERS.map((f) => (
+            <button
+              key={f.value}
+              onClick={() => update('priceMax', f.value)}
+              className="px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
+              style={filters.priceMax === f.value ? PRICE_SELECTED : UNSELECTED}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
       </div>
+
+      {/* 데이터 필터 */}
+      <div className="flex gap-2 mb-3">
+        <span className="text-xs font-bold text-gray-400 pt-1.5 w-9 shrink-0">데이터</span>
+        <div className="flex flex-wrap gap-2">
+          {DATA_FILTERS.map((f) => (
+            <button
+              key={f.value}
+              onClick={() => update('dataMin', f.value)}
+              className="px-3 py-1.5 rounded-full text-xs font-medium transition-colors"
+              style={filters.dataMin === f.value ? DATA_SELECTED : UNSELECTED}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="border-t border-gray-100 my-3" />
 
       {/* 정렬 */}
       <div className="flex gap-2 overflow-x-auto pb-0.5">
@@ -117,7 +127,7 @@ export default function FilterBar({ onFilterChange }: FilterBarProps) {
             className="px-3 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-colors"
             style={
               filters.sortBy === s.value
-                ? { color: '#2378C3', background: '#EBF3FB', border: '1px solid #4A90D9' }
+                ? { color: '#2378C3', background: '#EBF3FB', border: '1px solid #17B4E8' }
                 : { color: '#9CA3AF', background: 'transparent', border: '1px solid #E5E7EB' }
             }
           >
