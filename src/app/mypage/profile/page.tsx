@@ -11,6 +11,7 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [isError, setIsError] = useState(false);
+  const [verifyOpen, setVerifyOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -77,9 +78,9 @@ export default function ProfilePage() {
         </div>
         <div>
           <label className="text-xs font-medium text-gray-500 mb-1 block">이름</label>
-          <input value={name} onChange={e => setName(e.target.value)}
-            className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-400"
-            placeholder="이름" required />
+          <input value={name} disabled
+            className="w-full border border-gray-100 rounded-xl px-4 py-3 text-sm bg-gray-50 text-gray-500" />
+          <p className="text-xs text-gray-400 mt-1">카카오 또는 본인인증으로 확인된 이름이라 변경할 수 없어요.</p>
         </div>
         <div>
           <label className="text-xs font-medium text-gray-500 mb-1 block">휴대폰 번호</label>
@@ -98,6 +99,30 @@ export default function ProfilePage() {
           {saving ? '저장 중...' : '저장하기'}
         </button>
       </form>
+
+      {/* 본인인증 */}
+      <div className="bg-white rounded-2xl p-6 mt-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-bold text-gray-900">휴대폰 본인인증</p>
+            <p className="text-xs text-gray-400 mt-0.5">통신사 문자로 실명을 확인해요</p>
+          </div>
+          <span className="text-xs font-bold px-2.5 py-1 rounded-full"
+            style={{ background: '#F3F4F6', color: '#9CA3AF' }}>미인증</span>
+        </div>
+
+        <button type="button" onClick={() => setVerifyOpen(true)}
+          className="w-full text-sm font-bold py-3 rounded-xl mt-4 border"
+          style={{ color: '#17B4E8', borderColor: '#17B4E8', background: '#fff' }}>
+          휴대폰 본인인증하기
+        </button>
+
+        {verifyOpen && (
+          <div className="mt-3 rounded-xl p-3 text-sm text-center" style={{ background: '#EBF3FB', color: '#2378C3' }}>
+            본인인증 기능은 준비 중이에요. 곧 제공될 예정입니다.
+          </div>
+        )}
+      </div>
     </div>
   );
 }
