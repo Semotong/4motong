@@ -14,7 +14,7 @@ interface NavItem {
 const NAV_GROUPS: { title: string; items: NavItem[] }[] = [
   {
     title: '회원',
-    items: [{ key: 'members', label: '회원 관리', href: '/admin/members', icon: '👤', status: 'soon' }],
+    items: [{ key: 'members', label: '회원 관리', href: '/admin/members', icon: '👤', status: 'live' }],
   },
   {
     title: '고객서비스',
