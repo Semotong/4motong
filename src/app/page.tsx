@@ -53,14 +53,6 @@ export default function HomePage() {
             style={{ color: '#17B4E8', borderColor: '#17B4E8' }}>
             최저가 찾기
           </Link>
-          <a
-            href="http://b2b.alancorp.net/b2b/NG1vdG9uZy8x"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm font-bold text-white px-4 py-2 rounded-xl"
-            style={{ backgroundColor: '#E8703A' }}>
-            B2B 영업페이지
-          </a>
         </div>
       </div>
 
