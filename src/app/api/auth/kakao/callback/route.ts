@@ -79,7 +79,7 @@ export async function GET(req: NextRequest) {
       if (synced) user = synced;
     }
 
-    const token = signToken({ id: user.id, email: user.email, name: user.name });
+    const token = signToken({ id: user.id, email: user.email, name: user.name, role: user.role });
 
     const res = NextResponse.redirect(new URL('/', req.nextUrl.origin));
     res.cookies.set('nemotong_token', token, {
