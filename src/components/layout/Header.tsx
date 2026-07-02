@@ -3,18 +3,21 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     await logout();
     router.push('/');
     setMenuOpen(false);
   };
+
+  if (pathname?.startsWith('/admin')) return null;
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
