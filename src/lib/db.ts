@@ -59,6 +59,25 @@ export async function createUser(data: {
   return user;
 }
 
+export async function updateUser(
+  id: number,
+  fields: { name?: string; phone?: string }
+): Promise<DBUser | null> {
+  const patch: Record<string, unknown> = {};
+  if (fields.name !== undefined) patch.name = fields.name;
+  if (fields.phone !== undefined) patch.phone = fields.phone;
+
+  const { data, error } = await supabaseAdmin
+    .from('users')
+    .update(patch)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
 // --- 찜 ---
 export async function getZzimsByUser(userId: number): Promise<DBZzim[]> {
   const { data } = await supabaseAdmin
